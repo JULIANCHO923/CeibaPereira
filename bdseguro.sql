@@ -1,5 +1,6 @@
-CREATE DATABASE bdseguro
-USE bdseguro
+CREATE DATABASE bdseguro;
+USE bdseguro;
+
 CREATE TABLE tipo_inmueble (
   idtipo_inmueble VARCHAR(11)   NOT NULL ,
   nombre VARCHAR(50)      ,
