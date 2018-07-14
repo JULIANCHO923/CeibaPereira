@@ -1,8 +1,5 @@
-CREATE DATABASE bdseguro;
-USE bdseguro;
-
 CREATE TABLE tipo_inmueble (
-  idtipo_inmueble VARCHAR(11)   NOT NULL ,
+  idtipo_inmueble SERIAL  NOT NULL ,
   nombre VARCHAR(50)      ,
 PRIMARY KEY(idtipo_inmueble));
 
@@ -10,7 +7,7 @@ PRIMARY KEY(idtipo_inmueble));
 
 
 CREATE TABLE usuario (
-  cedula VARCHAR(20)   NOT NULL ,
+  cedula VARCHAR(50)  NOT NULL ,
   nombre VARCHAR(100)    ,
   contrasena VARCHAR(50)      ,
 PRIMARY KEY(cedula));
@@ -19,7 +16,7 @@ PRIMARY KEY(cedula));
 
 
 CREATE TABLE configuracion (
-  idconfiguracion VARCHAR(11)   NOT NULL ,
+  idconfiguracion SERIAL  NOT NULL ,
   porcentaje_inmueble DOUBLE    ,
   coutas INTEGER    ,
   comision DOUBLE      ,
@@ -29,14 +26,17 @@ PRIMARY KEY(idconfiguracion));
 
 
 CREATE TABLE inmueble (
-  idinmueble VARCHAR(11)   NOT NULL ,
+  idinmueble SERIAL  NOT NULL ,
   usuario_cedula VARCHAR(20)   NOT NULL ,
   tipo_inmueble_idtipo_inmueble VARCHAR(11)   NOT NULL ,
   direccion VARCHAR(255)    ,
   valor DOUBLE    ,
   estrato INTEGER    ,
   metraje DOUBLE    ,
-  valor_prima DOUBLE      ,
+  valor_prima DOUBLE    ,
+  latitud VARCHAR(50)    ,
+  longitud VARCHAR(50)    ,
+  zoom INTEGER      ,
 PRIMARY KEY(idinmueble)    ,
   FOREIGN KEY(tipo_inmueble_idtipo_inmueble)
     REFERENCES tipo_inmueble(idtipo_inmueble),
@@ -53,7 +53,7 @@ CREATE INDEX IFK_Rel_02 ON inmueble (usuario_cedula);
 
 
 CREATE TABLE reclamacion (
-  idreclamacion VARCHAR(11)   NOT NULL ,
+  idreclamacion SERIAL  NOT NULL ,
   inmueble_idinmueble VARCHAR(11)   NOT NULL ,
   sentimiento1 VARCHAR(11)    ,
   sentimiento2 VARCHAR(11)    ,
