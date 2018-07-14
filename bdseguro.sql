@@ -17,9 +17,9 @@ PRIMARY KEY(cedula));
 
 CREATE TABLE configuracion (
   idconfiguracion SERIAL  NOT NULL ,
-  porcentaje_inmueble DOUBLE    ,
+  porcentaje_inmueble BIGINT    ,
   coutas INTEGER    ,
-  comision DOUBLE      ,
+  comision BIGINT      ,
 PRIMARY KEY(idconfiguracion));
 
 
@@ -30,10 +30,10 @@ CREATE TABLE inmueble (
   usuario_cedula VARCHAR(20)   NOT NULL ,
   tipo_inmueble_idtipo_inmueble VARCHAR(11)   NOT NULL ,
   direccion VARCHAR(255)    ,
-  valor DOUBLE    ,
+  valor BIGINT    ,
   estrato INTEGER    ,
-  metraje DOUBLE    ,
-  valor_prima DOUBLE    ,
+  metraje BIGINT    ,
+  valor_prima BIGINT    ,
   latitud VARCHAR(50)    ,
   longitud VARCHAR(50)    ,
   zoom INTEGER      ,
