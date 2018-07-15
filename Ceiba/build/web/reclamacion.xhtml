@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <title>Marcar Reclamación</title>
+    </h:head>
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="msj" autoUpdate="true" showDetail="true" />
+
+                <h:form>
+                    <p:outputLabel value="Persona" />
+                    <p:selectOneMenu value="#{ventaBean.venta.persona}" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}" />
+                        <f:selectItems value="#{personaBean.lstPersona}" var="per" itemLabel="#{per.nombre}" itemValue="#{per}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Producto" />
+                    <p:selectOneMenu value="#{ventaBean.producto}" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}" />
+                        <f:selectItems value="#{productoBean.lstProducto}" var="pro" itemLabel="#{pro.nombre}" itemValue="#{pro}" />
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value="Cantidad" />
+                    <p:inputText value="#{ventaBean.cantidad}"/>
+
+                    <p:commandButton value="Agregar" actionListener="#{ventaBean.agregar()}" update="detalle"/>
+
+                    <p:dataTable id="detalle" value="#{obtenerSeguroBean.lstInmueble}" var="det" rows="10" paginator="true"  
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+
+                        <p:column headerText="Inmueble" >
+                            <p:outputLabel value="#{det.usuario_cedula}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo Inmueble">
+                            <p:outputLabel value="#{det.tipo_inmueble_idtipo_inmueble}" />
+                        </p:column>
+
+                        <p:column headerText="Dirección">
+                            <p:outputLabel value="#{det.direccion}" />
+                        </p:column>
+
+                        <p:column headerText="Valor">
+                            <p:outputLabel value="#{det.valor}" />
+                        </p:column>
+
+                        <p:column headerText="Estrato">
+                            <p:outputLabel value="#{det.estrato}" />
+                        </p:column>
+
+                        <p:column headerText="Metraje">
+                            <p:outputLabel value="#{det.metraje}" />
+                        </p:column>
+
+                        <p:column headerText="Valor Prima">
+                            <p:outputLabel value="#{det.valor_prima}" />
+                        </p:column>
+
+                        <p:column headerText="Reclamo" >
+                            <p:commandLink value="Reclamo" actionListener="#{obtenerSeguroBean.leerID(det.idinmueble)}" oncomplete="PF('wdlgDatos').show();" update=":dlgDatos"/>
+                        </p:column>
+                        
+                         <p:column headerText="Cargar Video" >
+                             <p:fileUpload id="fileupload" label="Adjuntar" rendered="true" mode="advance" auto="true"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog header="Datos" widgetVar="wdlgDatos" id="dlgDatos">
+                    <h:form>
+                        <p:outputLabel value="Nombre" />
+                        <p:inputText  value="#{seguroBean.persona.nombre}" />
+
+                        <p:outputLabel value="Sexo" />
+                        <p:selectOneMenu value="#{seguroBean.persona.sexo}">
+                            <f:selectItem itemLabel="MASCULINO" itemValue="M" />
+                            <f:selectItem itemLabel="FEMENINO" itemValue="F" />
+                            <f:selectItem itemLabel="SIN DEFINIR" itemValue="N" />
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="#{seguroBean.accion}" actionListener="#{seguroBean.operar()}" oncomplete="PF('wdlgDatos').hide();" />
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>         
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
