@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Obtener Seguro</title>
+    </h:head>
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <!--<f:event type="preRenderView" listener="{obtenerSeguroBean.listar('F')}" />-->
+                <p:growl id="msj" showDetail="true" />
+
+                <h:form id="frm">                    
+                    <!-- <p:commandButton value="Listar" actionListener="{productoBean.listar()}"  update="data" /> -->
+                    <p:panel id="panel" header="Registro" style="margin-bottom:10px;">
+                        <p:messages id="messages" />
+                        <h:panelGrid columns="3" cellpadding="5">
+                            
+                            <p:outputLabel for="direccionId" value="Dirección:" />
+                            <p:inputText id="direccionId" value="#{obtenerSeguroBean.direccion}" required="true" label="Direccion">
+                                <f:validateLength maximum="50" />
+                            </p:inputText>
+                            <p:message for="direccionId" />
+
+                            <p:outputLabel for="tiposId" value="Tipo:" />
+                            <p:selectOneMenu id="tiposId" value="#{obtenerSeguroBean.tipo.idtipo_inmueble}" required="true" label="Tipos">
+                                <f:selectItem itemLabel="Elija un tipo" itemValue=""  noSelectionOption="true" />
+                                <f:selectItems value="#{obtenerSeguroBean.tipos}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.idtipo_inmueble}" />
+                            </p:selectOneMenu>
+                            <p:message for="tiposId" />
+                            
+                            <p:outputLabel for="valorId" value="Valor:" />
+                            <p:inputText id="valorId" value="#{obtenerSeguroBean.valor}" required="true" label="Valor">
+                                <p:ajax event="change" listener="#{obtenerSeguroBean.calculaValorPrima}" update="valorPrimaId" />
+                            </p:inputText>
+                            <p:message for="valorId" />
+                            
+                            <p:outputLabel for="metrajeId" value="Metraje:" />
+                            <p:inputText id="metrajeId" value="#{obtenerSeguroBean.metraje}" required="true" label="Metraje"/>
+                            <p:message for="metrajeId" />
+                            
+                            <p:outputLabel for="estratoId" value="Estrato" />
+                            <p:inputText id="estratoId" value="#{obtenerSeguroBean.estrato}" required="true" label="Estrato"/>
+                            <p:message for="estratoId" />
+                            
+                            <p:outputLabel for="valorPrimaId" value="Valor Prima:" />
+                            <p:inputText id="valorPrimaId" value="#{obtenerSeguroBean.valorPrima}" required="true" label="Valor Prima" disabled="true"/>
+                            <p:message for="valorPrimaId" />
+                            
+                            <p:commandButton value="Enviar" actionListener="#{obtenerSeguroBean.enviarSolicitud}"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

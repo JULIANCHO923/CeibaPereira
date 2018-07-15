@@ -8,14 +8,14 @@ package com.ceiba.doa.model;
 
 public class tipo_inmueble {
     
-    private String idtipo_inmueble;
+    private Integer idtipo_inmueble;
     private String nombre;
 
-    public String getIdtipo_inmueble() {
+    public Integer getIdtipo_inmueble() {
         return idtipo_inmueble;
     }
 
-    public void setIdtipo_inmueble(String idtipo_inmueble) {
+    public void setIdtipo_inmueble(Integer idtipo_inmueble) {
         this.idtipo_inmueble = idtipo_inmueble;
     }
 

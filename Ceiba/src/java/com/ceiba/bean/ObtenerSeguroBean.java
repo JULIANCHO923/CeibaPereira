@@ -2,7 +2,10 @@ package com.ceiba.bean;
 
 import com.ceiba.doa.InmuebleDAO;
 import com.ceiba.doa.model.Inmueble;
+import com.ceiba.doa.model.tipo_inmueble;
 import com.ceiba.gestor.GestorReclamo;
+import com.ceiba.gestor.GestorSeguros;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,6 +15,15 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 
 public class ObtenerSeguroBean {
+    
+    private String direccion;
+    private ArrayList<tipo_inmueble> tipos;
+    private tipo_inmueble tipo;
+    private Integer valor;
+    private Integer metraje;
+    private Integer estrato;
+    private Double valorPrima;
+    private final GestorSeguros gestorSeguros;
 
     private Inmueble inmueble = new Inmueble();
     private List<Inmueble> lstInmueble;
@@ -19,6 +31,9 @@ public class ObtenerSeguroBean {
     
     public ObtenerSeguroBean () throws Exception {
         listarInmueble();
+        tipo = new tipo_inmueble();
+        gestorSeguros = new GestorSeguros();
+        cargarTipos();
     }
 
     public String getAccion() {
@@ -68,6 +83,117 @@ public class ObtenerSeguroBean {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+        /**
+     * @return the direccion
+     */
+    public String getDireccion() {
+        return direccion;
+    }
+
+    /**
+     * @param direccion the direccion to set
+     */
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    /**
+     * @return the tipos
+     */
+    public ArrayList<tipo_inmueble> getTipos() {
+        return tipos;
+    }
+
+    /**
+     * @param tipos the tipos to set
+     */
+    public void setTipos(ArrayList<tipo_inmueble> tipos) {
+        this.tipos = tipos;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public tipo_inmueble getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(tipo_inmueble tipo) {
+        this.tipo = tipo;
+    }
+
+    /**
+     * @return the valor
+     */
+    public Integer getValor() {
+        return valor;
+    }
+
+    /**
+     * @param valor the valor to set
+     */
+    public void setValor(Integer valor) {
+        this.valor = valor;
+    }
+
+    /**
+     * @return the metraje
+     */
+    public Integer getMetraje() {
+        return metraje;
+    }
+
+    /**
+     * @param metraje the metraje to set
+     */
+    public void setMetraje(Integer metraje) {
+        this.metraje = metraje;
+    }
+
+    /**
+     * @return the estrato
+     */
+    public Integer getEstrato() {
+        return estrato;
+    }
+
+    /**
+     * @param estrato the estrato to set
+     */
+    public void setEstrato(Integer estrato) {
+        this.estrato = estrato;
+    }
+
+    /**
+     * @return the valorPrima
+     */
+    public Double getValorPrima() {
+        return valorPrima;
+    }
+
+    /**
+     * @param valorPrima the valorPrima to set
+     */
+    public void setValorPrima(Double valorPrima) {
+        this.valorPrima = valorPrima;
+    }
+    
+    
+    private void cargarTipos() throws Exception {
+        tipos = gestorSeguros.cargarTipos();
+    }
+    
+    public void calculaValorPrima() {
+        this.valorPrima = (this.valor * 0.05)/12 + ((this.valor * 0.05)/12)*0.001;
+    }
+    
+    public void enviarSolicitud() throws Exception {
+        gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima);
     }
 
 }
