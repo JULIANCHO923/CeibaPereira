@@ -81,11 +81,14 @@
 
                 <p:dialog header="Datos" widgetVar="wdlgDatos" id="dlgDatos">
                     <h:form>
-                        <p:outputLabel value="" />
+                        <p:outputLabel value="Nombre" />
                         <p:inputText  value="#{seguroBean.persona.nombre}" />
 
-                        <p:outputLabel value="" />
+                        <p:outputLabel value="Sexo" />
                         <p:selectOneMenu value="#{seguroBean.persona.sexo}">
+                            <f:selectItem itemLabel="MASCULINO" itemValue="M" />
+                            <f:selectItem itemLabel="FEMENINO" itemValue="F" />
+                            <f:selectItem itemLabel="SIN DEFINIR" itemValue="N" />
                         </p:selectOneMenu>
 
                         <p:commandButton value="#{seguroBean.accion}" actionListener="#{seguroBean.operar()}" oncomplete="PF('wdlgDatos').hide();" />
