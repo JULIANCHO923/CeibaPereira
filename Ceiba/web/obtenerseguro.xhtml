@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Obtener Seguro</title>
+        
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88&libraries=places" type="text/javascript"> </script> -->
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88amp;libraries=places" type="text/javascript"> </script> 
+        
+        <script >      
+
+      var  map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 4.81465, lng: -75.693488},
+          zoom: 15               
+        });
+      
+      var marker = new google.maps.Marker({
+        position: {lat: 4.81465, lng: -75.693488 },
+        map: map,
+        draggable: true,
+        title:"Arrastrame!"
+      });
+
+
+    var searchBox = new google.maps.places.SearchBox(document.getElementById('address'));
+  
+    google.maps.event.addListener(searchBox,'places_changed',function(){
+    var places = searchBox.getPlaces();
+    var bounds = new google.maps.LatLngBounds();
+    var i, place;
+    for(i=0; place=places[i];i++){
+        bounds.extend(place.geometry.location);
+        marker.setPosition(place.geometry.location);   
+      }
+      map.fitBounds(bounds);
+      map.setZoom(15);
+    });
+  
+    google.maps.event.addListener(marker,'position_changed',function(){
+      var lat = marker.getPosition().lat();                      
+      var lng = marker.getPosition().lng();      
+      document.getElementById("lat").value = lat;
+      document.getElementById("lng").value = lng;      
+      geocodeLatLng(geocoder, map, infowindow);     
+  });
+
+ 
+ map.addListener('zoom_changed', function() {
+    var zoom = map.getZoom();
+    console.log("Zoom: %o", zoom);
+    document.getElementById("zoom").value = zoom;
+  });
+
+ var geocoder = new google.maps.Geocoder;
+ var infowindow = new google.maps.InfoWindow;      
+
+      function geocodeLatLng(geocoder, map, infowindow) {
+        var lat = document.getElementById('lat').value;
+        console.log("Lat: %o", lat);
+        var lng = document.getElementById('lng').value;
+        console.log("Lng: %o", lng);
+        var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[1]) {   
+            // window.alert( var_dump(results));      
+            document.getElementById("address2").value = results[0].formatted_address;                                
+             // infowindow.setContent(results[1].formatted_address);
+              //infowindow.open(map, marker);
+            } else {
+              window.alert('No se encontraron resultados');
+            }
+          } else {
+            //window.alert('Geocoder falló debido a: ' + status);
+          }
+        });
+}      
+    </script>        
+        
+    </h:head>
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <f:event type="preRenderView" listener="#{obtenerSeguroBean.listar('F')}" />
+                <p:growl id="msj" showDetail="true" />
+
+                <h:form id="frm">                    
+                    <!-- <p:commandButton value="Listar" actionListener="{productoBean.listar()}"  update="data" /> -->
+                    <p:panel id="panel" header="Registro" style="margin-bottom:10px;">
+                        <p:messages id="messages" />
+                        <h:panelGrid columns="3" cellpadding="5">
+                            
+                            <p:outputLabel for="direccion" value="Dirección:" />
+                            <p:inputText id="direccion" value="#{resetInputView.text1}" required="true" label="Firstname">
+                                <f:validateLength minimum="2" />
+                            </p:inputText>                                                        
+                            <p:message for="direccion" />
+                            
+                            
+                        <label> Latitud: </label><input type="text" name="lat" id="lat" value=""/> 
+                        <br/> 
+                        <label> Longitud: </label><input type="text" name="lng" id="lng" value=""/> 
+                        <br/> 
+                        <label> Zoom: </label><input type="text" id="zoom" value=""/> 
+                        <br/> 
+ 
+                        <label> Dirección alternativa: </label><input type="text" name="address2" id="address2"/> 
+                            
+                        <p:outputPanel style="height:540px" id="map"/>
+
+                            <p:outputLabel for="tiposId" value="Tipo:" />
+                            <p:selectOneMenu id="tiposId" value="#{obtenerSeguroBean.tipo}" required="true" label="Tipos">
+                                <f:selectItem itemLabel="Elija un tipo" itemValue=""  noSelectionOption="true" />
+                                <f:selectItems value="#{obtenerSeguroBean.tipos}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                            </p:selectOneMenu>
+                            <p:message for="tiposId" />
+                            
+                            <p:outputLabel for="text3" value="Valor:" />
+                            <p:inputText id="text3" value="#{resetInputView.text3}" required="true" label="Surname"/>
+                            <p:message for="text3" />
+                            
+                            <p:outputLabel for="text4" value="Metraje:" />
+                            <p:inputText id="text4" value="#{resetInputView.text4}" required="true" label="Surname"/>
+                            <p:message for="text4" />
+                            
+                            <p:outputLabel for="text5" value="Estrato" />
+                            <p:inputText id="text5" value="#{resetInputView.text5}" required="true" label="Surname"/>
+                            <p:message for="text5" />
+                            
+                            <p:outputLabel for="text6" value="Valor Prima:" />
+                            <p:inputText id="text6" value="#{resetInputView.text6}" required="true" label="Surname"/>
+                            <p:message for="text6" />
+                            
+                            <p:commandButton value="Nuevo" oncomplete="PF('wdlgDatos').show();" actionListener="#{obtenerSeguroBean.setAccion('Registrar')}"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+               
+
+    
+    
+        
+    </body>
+</html>

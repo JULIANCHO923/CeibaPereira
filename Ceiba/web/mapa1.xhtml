@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+    <title>Simple Map</title>
+    
+    <meta name="viewport" content="initial-scale=1.0"/>    
+        
+    <!-- <h:outputScript name="js/apiGoogle.js" />      
+      <h:outputScript name="js/mapa.js" />        -->
+     
+     
+  </h:head>
+    
+  <body>
+    
+     <f:verbatim>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88" type="text/javascript"> </script> 
+     </f:verbatim> 
+      
+      <h:form id="formId">         
+          <h:panelGroup style="height:240px" id="map" layout="block"/>
+    
+      <label> Dirección : </label><h:inputText id="address"/> 
+      <label> Latitud: </label><h:inputText  id="lat"/> 
+      <br/> 
+      <label> Longitud: </label><h:inputText  id="lng" value=""/> 
+      <br/> 
+      <label> Zoom: </label><h:inputText  id="zoom" value=""/> 
+      <br/>  
+      <label> Dirección alternativa: </label><h:inputText id="address2"/> 
+                
+    
+     </h:form>
+      
+     
+      <f:verbatim>
+       <script type="text/javascript"> 
+       var  map = new google.maps.Map(document.getElementById('formId:map'), {
+          center: {lat: 4.81465, lng: -75.693488},
+          zoom: 15               
+        });
+      
+      var marker = new google.maps.Marker({
+        position: {lat: 4.81465, lng: -75.693488 },
+        map: map,
+        draggable: true,
+        title:"Arrastrame!"
+      });
+
+  
+    google.maps.event.addListener(marker,'position_changed',function(){
+      var lat = marker.getPosition().lat();                      
+      var lng = marker.getPosition().lng();      
+      var zoom = map.getZoom();      
+      document.getElementById("formId:lat").value = lat;
+      document.getElementById("formId:lng").value = lng;      
+      document.getElementById("formId:zoom").value = zoom;      
+      geocodeLatLng(geocoder, map, infowindow);     
+  });
+ 
+    map.addListener('zoom_changed', function() {
+        var zoom = map.getZoom();
+        console.log("Zoom: %o", zoom);
+        document.getElementById("formId:zoom").value = zoom;
+  });
+      
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;      
+
+      function geocodeLatLng(geocoder, map, infowindow) {
+        var lat = document.getElementById('formId:lat').value;
+        console.log("Lat: %o", lat);
+        var lng = document.getElementById('formId:lng').value;
+        console.log("Lng: %o", lng);
+        var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[1]) {   
+            // window.alert( var_dump(results));      
+            document.getElementById("formId:address2").value = results[0].formatted_address;                                
+             // infowindow.setContent(results[1].formatted_address);
+              //infowindow.open(map, marker);
+            } else {
+              window.alert('No se encontraron resultados');
+            }
+          } else {
+            //window.alert('Geocoder falló debido a: ' + status);
+          }
+        });
+}      
+</script> 
+     </f:verbatim> 
+     
+           
+  </body>
+</html>
