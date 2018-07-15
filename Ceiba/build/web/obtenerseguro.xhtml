@@ -21,64 +21,70 @@
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88" type="text/javascript"> </script> 
                 </f:verbatim>                 
                  
-                 <p:growl id="msj" showDetail="true" autoUpdate="true" /> 
+               <p:growl id="msj" showDetail="true" autoUpdate="true" /> 
 
                 <h:form id="frm">                    
-                                                        
-                    
-                    
+                                                                                                
                     <p:panel id="panel" header="Registro" style="margin-bottom:10px;">
                         <p:messages id="messages" />
                         
+                        <h:panelGrid columns="2">				
+				<h:outputText value="#{msg['idioma.jsf']}" />
+				<h:selectOneMenu value="#{idioma.localeCode}" onchange="submit()"
+					valueChangeListener="#{idioma.countryLocaleCodeChanged}">
+   					<f:selectItems value="#{idioma.countriesInMap}" /> 
+   				</h:selectOneMenu>
+			</h:panelGrid>
+                                                                       
                         <h:panelGroup style="width:250px; height:250px" id="map" layout="block"/>
                         
                         <h:panelGrid columns="3" cellpadding="5">                                                        
                                                                                                                 
                             
-                            <p:outputLabel for="direccionId" value="Dirección:" />
+                            <p:outputLabel for="direccionId" value="#{msg['direccion.jsf']}:" />
                             <p:inputText id="direccionId" value="#{obtenerSeguroBean.direccion}" required="true" label="Direccion">
-                                <f:validateLength maximum="50" />
+                                <f:validateLength maximum="200" />
                             </p:inputText>
                             <p:message for="direccionId" />
                             
-                            <p:outputLabel value="Latitud:" />
+                            <p:outputLabel value="#{msg['latitud.jsf']}:" />
                                 <p:inputText id="lat" value="#{obtenerSeguroBean.latitud}">                                
                             </p:inputText>
                                                         
-                            <p:outputLabel value="Longitud:" />
+                            <p:outputLabel value="#{msg['longitud.jsf']}:" />
                                 <p:inputText id="lng" value="#{obtenerSeguroBean.longitud}">                                
                             </p:inputText>                            
                             
-                            <p:outputLabel value="Zoom:" />
+                            <p:outputLabel value="#{msg['zoom.jsf']}:" />
                                 <p:inputText id="zoom" value="#{obtenerSeguroBean.zoom}">                                
                             </p:inputText>                            
                                                                                     
-                            <p:outputLabel for="tiposId" value="Tipo:" />
+                            <p:outputLabel for="tiposId" value="#{msg['tipo.jsf']}:" />
                             <p:selectOneMenu id="tiposId" value="#{obtenerSeguroBean.tipo.idtipo_inmueble}" required="true" label="Tipos">
                                 <f:selectItem itemLabel="Elija un tipo" itemValue=""  noSelectionOption="true" />
                                 <f:selectItems value="#{obtenerSeguroBean.tipos}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.idtipo_inmueble}" />
                             </p:selectOneMenu>
                             <p:message for="tiposId" />
                             
-                            <p:outputLabel for="valorId" value="Valor:" />
+                            <p:outputLabel for="valorId" value="#{msg['valor.jsf']}:" />
                             <p:inputText id="valorId" value="#{obtenerSeguroBean.valor}" required="true" label="Valor">
                                 <p:ajax event="change" listener="#{obtenerSeguroBean.calculaValorPrima}" update="valorPrimaId" />
                             </p:inputText>
                             <p:message for="valorId" />
                             
-                            <p:outputLabel for="metrajeId" value="Metraje:" />
+                            <p:outputLabel for="metrajeId" value="#{msg['metraje.jsf']}:" />
                             <p:inputText id="metrajeId" value="#{obtenerSeguroBean.metraje}" required="true" label="Metraje"/>
                             <p:message for="metrajeId" />
-                            
-                            <p:outputLabel for="estratoId" value="Estrato" />
+                                                        
+                            <p:outputLabel for="estratoId" value="#{msg['estrato.jsf']}:" />
                             <p:inputText id="estratoId" value="#{obtenerSeguroBean.estrato}" required="true" label="Estrato"/>
                             <p:message for="estratoId" />
                             
-                            <p:outputLabel for="valorPrimaId" value="Valor Prima:" />
+                            <p:outputLabel for="valorPrimaId" value="#{msg['valorPrima.jsf']}:" />
                             <p:inputText id="valorPrimaId" value="#{obtenerSeguroBean.valorPrima}" required="true" label="Valor Prima" disabled="true"/>
                             <p:message for="valorPrimaId" />
                             
-                            <p:commandButton value="Enviar" actionListener="#{obtenerSeguroBean.enviarSolicitud}" update="direccionId,lat,lng,zoom,tiposId,valorId,metrajeId,estratoId,valorPrimaId"/>
+                            <p:commandButton value="#{msg['enviarObtenerSeguro.jsf']}:" actionListener="#{obtenerSeguroBean.enviarSolicitud}" update="direccionId,lat,lng,zoom,tiposId,valorId,metrajeId,estratoId,valorPrimaId"/>
                         </h:panelGrid>
                     </p:panel>
 

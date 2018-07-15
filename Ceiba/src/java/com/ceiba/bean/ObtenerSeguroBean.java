@@ -5,6 +5,7 @@ import com.ceiba.doa.model.Inmueble;
 import com.ceiba.doa.model.tipo_inmueble;
 import com.ceiba.gestor.GestorReclamo;
 import com.ceiba.gestor.GestorSeguros;
+import com.ceiba.mock.mockEstrato;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -100,6 +101,8 @@ public class ObtenerSeguroBean {
     }
     
     public void enviarSolicitud() throws Exception {
+        mockEstrato mockestrato = new mockEstrato();
+        if(mockestrato.validarEstrato(this.latitud, this.longitud, this.zoom, this.estrato) == 1){ // Estrato correcto
         if(gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima,this.latitud,this.longitud,this.zoom)) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud registrada exitosamente","Exito"));
@@ -108,6 +111,10 @@ public class ObtenerSeguroBean {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,"Hubo un problema al registrar la solicitud.","Alerta"));
         }
         limpiarForma();
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"El estrato ingresado no coincide con la geolocalización.","Alerta"));
+        }
     }
     
     public void limpiarForma(){

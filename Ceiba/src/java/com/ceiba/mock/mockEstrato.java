@@ -13,23 +13,22 @@ public class mockEstrato {
    
     /**
      * Mock utlizado para validar el estrato de una casa, dado los datos de geolozalización
-     * Definiremos que la coordenada de latitud <= -75.6938 
-     * (A la izquierda del museo del oro de Pereira) sera estrato 3 sino estrato 2  
+     * Definiremos que la zoom <= 14 el estrato es 2 sino sera estrato 3     
      *      
      * @param latitud dada por el google maps al escoger direccion
      * @param longitud dada por el google maps al escoger direccion
      * @param zoom dada por el google maps al escoger direccion
      * @return  1 estrato coincide, 0 estrato no coincide
      */
-    public int validarEstrato(String latitud, String longitud, String zoom, int estrato){
+    public int validarEstrato(String latitud, String longitud, int zoom, int estrato){
         double lat = Double.parseDouble(latitud);
-        double lng = Double.parseDouble(longitud);
-        double zm = Double.parseDouble(zoom);
+        double lng = Double.parseDouble(longitud);        
         int estratoAux = 0;
-        if(lat <= -75.6938){
-            estratoAux = 3;
-        }else{
+        
+        if(zoom < 14){
             estratoAux = 2;
+        }else{
+            estratoAux = 3;
         }
         
         if(estratoAux == estrato){

@@ -9,6 +9,10 @@
             <file>file:/C:/Users/Jonathan%20A.%20Muñoz/Desktop/Ceiba/src/java/com/ceiba/bean/ObtenerSeguroBean.java</file>
             <file>file:/C:/Users/Jonathan%20A.%20Muñoz/Desktop/Ceiba/web/reclamacion.xhtml</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/C:/Users/JULY92/Documents/GitHub/CeibaPereira/Ceiba/web/obtenerseguro.xhtml</file>
+            <file>file:/C:/Users/JULY92/Documents/GitHub/CeibaPereira/Ceiba/src/java/com/ceiba/idioma/LanguageBean.java</file>
+            <file>file:/C:/Users/JULY92/Documents/GitHub/CeibaPereira/Ceiba/src/java/com/ceiba/bean/ObtenerSeguroBean.java</file>
+        </group>
     </open-files>
 </project-private>
