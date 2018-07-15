@@ -7,6 +7,7 @@ import com.ceiba.gestor.GestorReclamo;
 import com.ceiba.gestor.GestorSeguros;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -27,7 +28,7 @@ public class ObtenerSeguroBean {
 
     private String latitud;
     private String longitud;    
-    private String zoom;
+    private Integer zoom;
     
     private Inmueble inmueble = new Inmueble();
     private List<Inmueble> lstInmueble;
@@ -99,7 +100,26 @@ public class ObtenerSeguroBean {
     }
     
     public void enviarSolicitud() throws Exception {
-        gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima,this.latitud,this.longitud,this.zoom);
+        if(gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima,this.latitud,this.longitud,this.zoom)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud registrada exitosamente","Exito"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"Hubo un problema al registrar la solicitud.","Alerta"));
+        }
+        limpiarForma();
+    }
+    
+    public void limpiarForma(){
+        this.tipo = new tipo_inmueble();
+        this.direccion = "";
+        this.valor = null;
+        this.metraje = null;
+        this.estrato = null;
+        this.valorPrima = null;
+        this.latitud = null;
+        this.longitud = null;    
+        this.zoom = null;
     }
     
     
@@ -233,14 +253,14 @@ public class ObtenerSeguroBean {
     /**
      * @return the zoom
      */
-    public String getZoom() {
+    public Integer getZoom() {
         return zoom;
     }
 
     /**
      * @param zoom the zoom to set
      */
-    public void setZoom(String zoom) {
+    public void setZoom(Integer zoom) {
         this.zoom = zoom;
     }
 
