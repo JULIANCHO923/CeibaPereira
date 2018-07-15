@@ -16,7 +16,7 @@ public class InmuebleDAO extends DAO {
         try {
             this.Conectar();
             PreparedStatement st = this.getCn().prepareCall("SELECT idinmueble, usuario_cedula, tipo_inmueble_idtipo_inmueble, direccion, \n"
-                    + "  valor, estrato, metraje, valor_prima\n"
+                    + "  valor, estrato, metraje, valor_prima, latitud, longitud, zoom\n"
                     + "  FROM public.inmueble;");
             rs = st.executeQuery();
             lista = new ArrayList();
@@ -33,6 +33,9 @@ public class InmuebleDAO extends DAO {
                 inmueble.setEstrato(rs.getInt("estrato"));
                 inmueble.setMetraje(rs.getDouble("metraje"));
                 inmueble.setValor_prima(rs.getDouble("valor_prima"));
+                inmueble.setLatitud(rs.getString("latitud"));
+                inmueble.setLongitud(rs.getString("longitud"));
+                inmueble.setZoom(rs.getString("zoom"));
 
                 lista.add(inmueble);
             }

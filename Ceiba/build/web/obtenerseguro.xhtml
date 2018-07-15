@@ -11,24 +11,48 @@
     </h:head>
     <body>
 
-        <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
+        
+        
+          <ui:composition template="./WEB-INF/templates/plantilla.xhtml"> 
 
-            <ui:define name="content">
-                <!--<f:event type="preRenderView" listener="{obtenerSeguroBean.listar('F')}" />-->
-                <p:growl id="msj" showDetail="true" />
+             <ui:define name="content">  
+                
+                 <f:verbatim>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88" type="text/javascript"> </script> 
+                </f:verbatim>                 
+                 
+               <p:growl id="msj" showDetail="true" /> 
 
                 <h:form id="frm">                    
-                    <!-- <p:commandButton value="Listar" actionListener="{productoBean.listar()}"  update="data" /> -->
+                                                        
+                    
+                    
                     <p:panel id="panel" header="Registro" style="margin-bottom:10px;">
                         <p:messages id="messages" />
-                        <h:panelGrid columns="3" cellpadding="5">
+                        
+                        <h:panelGroup style="width:250px; height:250px" id="map" layout="block"/>
+                        
+                        <h:panelGrid columns="3" cellpadding="5">                                                        
+                                                                                                                
                             
                             <p:outputLabel for="direccionId" value="Dirección:" />
                             <p:inputText id="direccionId" value="#{obtenerSeguroBean.direccion}" required="true" label="Direccion">
                                 <f:validateLength maximum="50" />
                             </p:inputText>
                             <p:message for="direccionId" />
-
+                            
+                            <p:outputLabel value="Latitud:" />
+                                <p:inputText id="lat" value="#{obtenerSeguroBean.latitud}">                                
+                            </p:inputText>
+                                                        
+                            <p:outputLabel value="Longitud:" />
+                                <p:inputText id="lng" value="#{obtenerSeguroBean.longitud}">                                
+                            </p:inputText>                            
+                            
+                            <p:outputLabel value="Zoom:" />
+                                <p:inputText id="zoom" value="#{obtenerSeguroBean.zoom}">                                
+                            </p:inputText>                            
+                                                                                    
                             <p:outputLabel for="tiposId" value="Tipo:" />
                             <p:selectOneMenu id="tiposId" value="#{obtenerSeguroBean.tipo.idtipo_inmueble}" required="true" label="Tipos">
                                 <f:selectItem itemLabel="Elija un tipo" itemValue=""  noSelectionOption="true" />
@@ -60,9 +84,58 @@
 
                 </h:form>
 
+                <f:verbatim>
+                     <script type="text/javascript"> 
+                         var  map = new google.maps.Map(document.getElementById('frm:map'), {
+                             center: {lat: 4.81465, lng: -75.693488},
+                             zoom: 15               
+                         });
+
+                         var marker = new google.maps.Marker({
+                             position: {lat: 4.81465, lng: -75.693488 },
+                             map: map,
+                             draggable: true,
+                             title:"Arrastrame!"
+                         });
+
+                         google.maps.event.addListener(marker,'position_changed',function(){
+                             var lat = marker.getPosition().lat();                      
+                             var lng = marker.getPosition().lng();      
+                             var zoom = map.getZoom();      
+                             document.getElementById("frm:lat").value = lat;
+                             document.getElementById("frm:lng").value = lng;      
+                             document.getElementById("frm:zoom").value = zoom;      
+                             geocodeLatLng(geocoder, map, infowindow);     
+                         });
+
+                         map.addListener('zoom_changed', function() {
+                             var zoom = map.getZoom();                    
+                             document.getElementById("frm:zoom").value = zoom;
+                         });
+
+                         var geocoder = new google.maps.Geocoder;
+                         var infowindow = new google.maps.InfoWindow;      
+
+                         function geocodeLatLng(geocoder, map, infowindow) {
+                             var lat = document.getElementById('frm:lat').value;                    
+                             var lng = document.getElementById('frm:lng').value;        
+                             var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};                   
+                             geocoder.geocode({'location': latlng}, function(results, status) {
+                                 if (status === 'OK') {
+                                     if (results[1]) {                               
+                                         document.getElementById("frm:direccionId").value = results[0].formatted_address;                                                                                        
+                                     } else {
+                                         window.alert('No se encontraron resultados');
+                                     }
+                                 } 
+                             });
+                         }      
+                     </script> 
+                 </f:verbatim>              
+               
             </ui:define>
 
-        </ui:composition>
-
+         </ui:composition> 
+           
     </body>
 </html>

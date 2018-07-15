@@ -3,6 +3,10 @@ CREATE TABLE tipo_inmueble (
   nombre VARCHAR(50)      ,
 PRIMARY KEY(idtipo_inmueble));
 
+INSERT INTO tipo_inmueble (nombre) VALUES ('APARTAMENTO');
+INSERT INTO tipo_inmueble (nombre) VALUES ('CASA');
+INSERT INTO tipo_inmueble (nombre) VALUES ('LOCAL');
+
 
 CREATE SEQUENCE idtipo_inmueble;
 ALTER TABLE tipo_inmueble ALTER idtipo_inmueble SET DEFAULT NEXTVAL('tipo_inmueble_idtipo_inmueble_seq');

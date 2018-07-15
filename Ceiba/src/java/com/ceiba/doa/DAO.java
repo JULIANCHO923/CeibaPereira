@@ -26,7 +26,7 @@ public class DAO {
 
         try {
             Class.forName("org.postgresql.Driver");
-            cn = DriverManager.getConnection("jdbc:postgresql://192.168.4.159:5432/postgres", "postgres", "adminadmin");
+            cn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "admin");
         } catch (Exception e) {
             throw e;
         }

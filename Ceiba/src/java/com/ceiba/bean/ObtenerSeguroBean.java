@@ -25,6 +25,10 @@ public class ObtenerSeguroBean {
     private Double valorPrima;
     private final GestorSeguros gestorSeguros;
 
+    private String latitud;
+    private String longitud;    
+    private String zoom;
+    
     private Inmueble inmueble = new Inmueble();
     private List<Inmueble> lstInmueble;
     private String accion;
@@ -35,7 +39,7 @@ public class ObtenerSeguroBean {
         gestorSeguros = new GestorSeguros();
         cargarTipos();
     }
-
+       
     public String getAccion() {
         return accion;
     }
@@ -84,6 +88,20 @@ public class ObtenerSeguroBean {
             throw e;
         }
     }
+    
+    
+    private void cargarTipos() throws Exception {
+        tipos = gestorSeguros.cargarTipos();
+    }
+    
+    public void calculaValorPrima() {
+        this.valorPrima = (this.valor * 0.05)/12 + ((this.valor * 0.05)/12)*0.001;
+    }
+    
+    public void enviarSolicitud() throws Exception {
+        gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima,this.latitud,this.longitud,this.zoom);
+    }
+    
     
         /**
      * @return the direccion
@@ -168,7 +186,7 @@ public class ObtenerSeguroBean {
     public void setEstrato(Integer estrato) {
         this.estrato = estrato;
     }
-
+      
     /**
      * @return the valorPrima
      */
@@ -182,18 +200,48 @@ public class ObtenerSeguroBean {
     public void setValorPrima(Double valorPrima) {
         this.valorPrima = valorPrima;
     }
-    
-    
-    private void cargarTipos() throws Exception {
-        tipos = gestorSeguros.cargarTipos();
+            
+
+    /**
+     * @return the latitud
+     */
+    public String getLatitud() {
+        return latitud;
     }
-    
-    public void calculaValorPrima() {
-        this.valorPrima = (this.valor * 0.05)/12 + ((this.valor * 0.05)/12)*0.001;
+
+    /**
+     * @param latitud the latitud to set
+     */
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
     }
-    
-    public void enviarSolicitud() throws Exception {
-        gestorSeguros.enviarSolicitud(this.direccion,this.tipo.getIdtipo_inmueble(),this.valor,this.metraje,this.estrato,this.valorPrima);
+
+    /**
+     * @return the longitud
+     */
+    public String getLongitud() {
+        return longitud;
+    }
+
+    /**
+     * @param longitud the longitud to set
+     */
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    /**
+     * @return the zoom
+     */
+    public String getZoom() {
+        return zoom;
+    }
+
+    /**
+     * @param zoom the zoom to set
+     */
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
     }
 
 }

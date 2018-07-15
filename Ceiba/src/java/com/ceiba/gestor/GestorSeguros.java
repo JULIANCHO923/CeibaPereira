@@ -32,9 +32,9 @@ public class GestorSeguros {
         return tipos;
     }
 
-    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima) throws Exception {
+    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, String zoom ) throws Exception {
         dao.Conectar();
-        sdao.enviarSolicitud(direccion,tipo,valor,metraje,estrato,valorPrima, dao);
+        sdao.enviarSolicitud(direccion,tipo,valor,metraje,estrato,valorPrima,latitud,longitud,zoom, dao);
         dao.Cerrar();
     }
 }

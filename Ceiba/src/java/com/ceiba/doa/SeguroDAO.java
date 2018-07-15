@@ -37,9 +37,9 @@ public class SeguroDAO {
         }
     }
 
-    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima,DAO dao) throws SQLException {        
+    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, String zoom ,DAO dao) throws SQLException {        
         try {
-            PreparedStatement st = dao.getCn().prepareStatement("insert into inmueble (usuario_cedula,direccion,tipo_inmueble_idtipo_inmueble,valor,metraje,estrato,valor_prima) values (?,?,?,?,?,?,?)");
+            PreparedStatement st = dao.getCn().prepareStatement("insert into inmueble (usuario_cedula,direccion,tipo_inmueble_idtipo_inmueble,valor,metraje,estrato,valor_prima,latitud,longitud,zoom) values (?,?,?,?,?,?,?,?,?,?)");
             st.setString(1, "200");
             st.setString(2, direccion.toUpperCase());
             st.setInt(3, tipo);
@@ -47,6 +47,9 @@ public class SeguroDAO {
             st.setInt(5, metraje);
             st.setInt(6, estrato);
             st.setDouble(7, valorPrima);
+            st.setString(8, latitud);
+            st.setString(9, longitud);
+            st.setString(10, zoom);
             st.executeUpdate();
         } catch (SQLException e) {
             throw e;
