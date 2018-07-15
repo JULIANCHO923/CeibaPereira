@@ -21,7 +21,7 @@
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbyN0tXtoPDpNlteY_WvvLJCpzMY2Ex88" type="text/javascript"> </script> 
                 </f:verbatim>                 
                  
-               <p:growl id="msj" showDetail="true" /> 
+                 <p:growl id="msj" showDetail="true" autoUpdate="true" /> 
 
                 <h:form id="frm">                    
                                                         
@@ -78,7 +78,7 @@
                             <p:inputText id="valorPrimaId" value="#{obtenerSeguroBean.valorPrima}" required="true" label="Valor Prima" disabled="true"/>
                             <p:message for="valorPrimaId" />
                             
-                            <p:commandButton value="Enviar" actionListener="#{obtenerSeguroBean.enviarSolicitud}"/>
+                            <p:commandButton value="Enviar" actionListener="#{obtenerSeguroBean.enviarSolicitud}" update="direccionId,lat,lng,zoom,tiposId,valorId,metrajeId,estratoId,valorPrimaId"/>
                         </h:panelGrid>
                     </p:panel>
 

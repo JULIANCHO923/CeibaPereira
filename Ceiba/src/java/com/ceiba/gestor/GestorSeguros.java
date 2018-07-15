@@ -32,9 +32,11 @@ public class GestorSeguros {
         return tipos;
     }
 
-    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, String zoom ) throws Exception {
+    public boolean enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, Integer zoom ) throws Exception {
+        Boolean completa = true;
         dao.Conectar();
-        sdao.enviarSolicitud(direccion,tipo,valor,metraje,estrato,valorPrima,latitud,longitud,zoom, dao);
+        completa = sdao.enviarSolicitud(direccion,tipo,valor,metraje,estrato,valorPrima,latitud,longitud,zoom, dao);
         dao.Cerrar();
+        return completa;
     }
 }

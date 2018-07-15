@@ -37,7 +37,7 @@ public class SeguroDAO {
         }
     }
 
-    public void enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, String zoom ,DAO dao) throws SQLException {        
+    public boolean enviarSolicitud(String direccion, Integer tipo, Integer valor, Integer metraje, Integer estrato, Double valorPrima, String latitud, String longitud, Integer zoom ,DAO dao) throws SQLException {        
         try {
             PreparedStatement st = dao.getCn().prepareStatement("insert into inmueble (usuario_cedula,direccion,tipo_inmueble_idtipo_inmueble,valor,metraje,estrato,valor_prima,latitud,longitud,zoom) values (?,?,?,?,?,?,?,?,?,?)");
             st.setString(1, "200");
@@ -49,8 +49,11 @@ public class SeguroDAO {
             st.setDouble(7, valorPrima);
             st.setString(8, latitud);
             st.setString(9, longitud);
-            st.setString(10, zoom);
-            st.executeUpdate();
+            st.setInt(10, zoom);
+            if(st.executeUpdate()>0) {
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw e;
         }
